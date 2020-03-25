@@ -6,12 +6,10 @@ namespace escape_corona.Interfaces
     {
         //go, look, take, use, inventory, Rest, setup, help
         List<string> Messages { get; set; }
-
-        void Setup(string playerName);
         void Reset();
 
         #region Console Commands
-        void Go(string direction);
+        bool Go(string direction);
         void Look();
         void Take(string itemName);
         void Use(string itemName);

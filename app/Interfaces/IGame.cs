@@ -4,6 +4,5 @@ namespace escape_corona.Interfaces
     {
         IPlayer CurrentPlayer { get; set; }
         IRoom CurrentRoom { get; set; }
-        void Setup();
     }
 }
