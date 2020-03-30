@@ -7,6 +7,8 @@ namespace escape_corona.Models
   {
     public string Name { get; set; }
     public string Description { get; set; }
+    public string HiddenDescription { get; set; }
+    public IItem HiddenDescriptionRevealer { get; set; }
     public List<IItem> Items { get; set; }
     public Dictionary<string, IRoom> Exits { get; set; }
     public Dictionary<IItem, KeyValuePair<string, IRoom>> LockedExits { get; set; }
@@ -29,6 +31,11 @@ namespace escape_corona.Models
         }
         return "You have unlocked a room";
       }
+      if (HiddenDescriptionRevealer != null && item == HiddenDescriptionRevealer)
+      {
+        Description = HiddenDescription;
+        return "A great plan new secrets have been revealed";
+      }
       return "No use for that here";
     }
 
@@ -36,6 +43,17 @@ namespace escape_corona.Models
     {
       Name = name;
       Description = description;
+      Items = new List<IItem>();
+      Exits = new Dictionary<string, IRoom>();
+      LockedExits = new Dictionary<IItem, KeyValuePair<string, IRoom>>();
+    }
+
+    public Room(string name, string description, IItem itemRevealer, string hiddenDescription)
+    {
+      Name = name;
+      Description = description;
+      HiddenDescriptionRevealer = itemRevealer;
+      HiddenDescription = hiddenDescription;
       Items = new List<IItem>();
       Exits = new Dictionary<string, IRoom>();
       LockedExits = new Dictionary<IItem, KeyValuePair<string, IRoom>>();

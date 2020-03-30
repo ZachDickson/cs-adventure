@@ -44,7 +44,10 @@ namespace escape_corona.Services
 
     public void Help()
     {
-      throw new System.NotImplementedException();
+      //FIXME 
+      Messages.Add("you may say 'go', 'look', 'use', 'inventory', or 'quit'");
+      string exits = string.Join(", ", _game.CurrentRoom.Exits.Keys);
+      Messages.Add("There are exits to the " + exits);
     }
 
     public void Inventory()
