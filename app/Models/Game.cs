@@ -2,50 +2,48 @@ using escape_corona.Interfaces;
 
 namespace escape_corona.Models
 {
-    class Game : IGame
+  class Game : IGame
+  {
+    public IPlayer CurrentPlayer { get; set; }
+    public IRoom CurrentRoom { get; set; }
+
+    ///<summary>Initalizes data and establishes relationships</summary>
+    public Game()
     {
-        public IPlayer CurrentPlayer { get; set; }
-        public IRoom CurrentRoom { get; set; }
-
-        ///<summary>Initalizes data and establishes relationships</summary>
-        public Game()
-        {
-            // NOTE ALL THESE VARIABLES ARE REMOVED AT THE END OF THIS METHOD
-            // We retain access to the objects due to the linked list
+      // NOTE ALL THESE VARIABLES ARE REMOVED AT THE END OF THIS METHOD
+      // We retain access to the objects due to the linked list
 
 
-            // NOTE Create all rooms
-            Room produce = new Room("Produce Section", @"
-                 \|/
-                 AXA
-                /XXX\
-                \XXX/
-                 `^'
-            Plenty of Fruit and Veggies, wonder why no on is stockpiling these yet");
-            Room electronics = new Room("Electronics", "Lots of stuff still here, yet no webcams in sight.");
-            Room frozenFoods = new Room("Frozen Foods", "Mostly empty shelves though the vegan chocolate hummus is still in stock for some reason");
-            EndRoom checkout = new EndRoom("Checkout", "A stressed minimum wage employee stares out you with a thousand yard stare, he has seen too much these last few weeks", true, "You breeze through the checkout with your new found wealth!");
-            EndRoom toiletPaperIsle = new EndRoom("Toiletries", "A hoarde of people are racing through this aisle with their weapons out", false, "You are trampled under foot and your name is lost to history");
+      // NOTE Create all rooms
+      Room entrance = new Room("Entry room", "An empty room lit by torches. its ominous and scary. You're not sure about the decision to come in here, but the door you came through is gone now. ");
+      Room bloodRoom = new Room("Blood Room", "Theres blood and bones everywhere.");
+      Room snakeRoom = new Room("Snake Room", "You can hear a sssss sound, but its too dark to see");
+      Room spiderRoom = new Room("spider Room", "There's lots of spiders in here. You see a skeleton holding a key in the corner. He's covered in spiders. You hate spiders...");
+      EndRoom treasureRoom = new EndRoom("Treasure Room", "Before you is a room gleaming with treasures of all types", true, "You have done it! you have conquered the Labyrinth!");
+      EndRoom deathtrap = new EndRoom("Death Trap", "The door slams shut behind you. Spikes protrude from the walls and the room grows smaller", false, "Theres no escape. The Labyrinth has claimed another soul. ");
 
-            // NOTE Create all Items
-            Item tp = new Item("Toilet Paper", "A Single Roll of precious paper, it must have fallen from a pack");
+      // NOTE Create all Items
+      Item torch = new Item("Torch", "You now have a single lit Torch");
+      Item key = new Item("key", "This could come in handy");
 
-            // NOTE Make Room Relationships
-            produce.Exits.Add("east", electronics);
-            electronics.Exits.Add("west", produce);
-            electronics.Exits.Add("north", frozenFoods);
-            electronics.Exits.Add("east", toiletPaperIsle);
-            frozenFoods.Exits.Add("south", electronics);
-
-            frozenFoods.AddLockedRoom(tp, "west", checkout);
-            checkout.Exits.Add("east", frozenFoods);
+      // NOTE Make Room Relationships
+      entrance.Exits.Add("east", bloodRoom);
+      bloodRoom.Exits.Add("west", entrance);
+      bloodRoom.Exits.Add("north", snakeRoom);
+      snakeRoom.Exits.Add("west", deathtrap);
+      snakeRoom.Exits.Add("south", bloodRoom);
+      snakeRoom.Exits.Add("east", spiderRoom);
+      spiderRoom.Exits.Add("west", snakeRoom);
+      spiderRoom.AddLockedRoom(key, "north", treasureRoom);
+      treasureRoom.Exits.Add("south", spiderRoom);
 
 
-            // NOTE put Items in Rooms
-            electronics.Items.Add(tp);
+      // NOTE put Items in Rooms
+      bloodRoom.Items.Add(torch);
+      spiderRoom.Items.Add(key);
 
 
-            CurrentRoom = produce;
-        }
+      CurrentRoom = entrance;
     }
+  }
 }
